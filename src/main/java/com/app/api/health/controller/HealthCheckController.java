@@ -15,13 +15,13 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class HealthCheckController {
 
-    private final Environment enviroment;
+    private final Environment environment;
 
     @GetMapping("/health")
     public ResponseEntity<HealthCheckResponseDto> healthCheck() {
         HealthCheckResponseDto healthCheckResponseDto = HealthCheckResponseDto.builder()
                 .health("ok")
-                .activeProfiles(Arrays.asList(enviroment.getActiveProfiles()))  //현재 activeProfiles 조회 (개발, 운영 등..)
+                .activeProfiles(Arrays.asList(environment.getActiveProfiles()))  //현재 activeProfiles 조회 (개발, 운영 등..)
                 .build();
         return ResponseEntity.ok(healthCheckResponseDto);// status 200 , body 담겨서 반환
     }
