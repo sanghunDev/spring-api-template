@@ -19,6 +19,13 @@ public class HealthCheckController {
 
     @GetMapping("/health")
     public ResponseEntity<HealthCheckResponseDto> healthCheck() {
+
+        try {
+            Thread.sleep(6000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         HealthCheckResponseDto healthCheckResponseDto = HealthCheckResponseDto.builder()
                 .health("ok")
                 .activeProfiles(Arrays.asList(environment.getActiveProfiles()))  //현재 activeProfiles 조회 (개발, 운영 등..)
