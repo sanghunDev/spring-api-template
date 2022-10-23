@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -37,4 +38,8 @@ public class Member {
     @Column(nullable = false, length = 10)
     private Role role;
 
+    @Column(length = 250)
+    private String refreshToken;
+
+    private LocalDateTime tokenExpirationTime;
 }
