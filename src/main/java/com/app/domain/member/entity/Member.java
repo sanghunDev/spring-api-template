@@ -1,6 +1,7 @@
 package com.app.domain.member.entity;
 
 import com.app.domain.member.constant.MemberType;
+import com.app.domain.member.constant.Role;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,4 +32,9 @@ public class Member {
 
     @Column(length = 200)
     private String profile;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 10)
+    private Role role;
+
 }
