@@ -1,5 +1,6 @@
 package com.app.domain.member.entity;
 
+import com.app.domain.common.BaseTimeEntity;
 import com.app.domain.member.constant.MemberType;
 import com.app.domain.member.constant.Role;
 import lombok.AccessLevel;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)  //객체의 무분별한 생성을 막기 위해 레벨 지정
-public class Member {
+public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //기본키 생성 전략을 db에 위임
