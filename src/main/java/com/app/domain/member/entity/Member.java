@@ -1,13 +1,11 @@
 package com.app.domain.member.entity;
 
+import com.app.domain.member.constant.MemberType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -17,4 +15,8 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //기본키 생성 전략을 db에 위임
     private Long memberId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 10)
+    private MemberType memberType;
 }
