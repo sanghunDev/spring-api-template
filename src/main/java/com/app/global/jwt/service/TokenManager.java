@@ -1,9 +1,12 @@
 package com.app.global.jwt.service;
 
 import com.app.domain.member.constant.Role;
+import com.app.global.error.ErrorCode;
+import com.app.global.error.exception.AuthenticationException;
 import com.app.global.jwt.constant.GrantType;
 import com.app.global.jwt.constant.ToKenType;
 import com.app.global.jwt.dto.JwtTokenDto;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
@@ -88,5 +91,17 @@ public class TokenManager {
                 .compact();
     }
 
+    public void validateToken(String tokenSecret) {
+        try {
+            Jwts.parser().setSigningKey(tokenSecret.getBytes(StandardCharsets.UTF_8))
+                    .parseClaimsJwt(tokenSecret);
+        } catch (ExpiredJwtException e) {
+            log.error("token 만료 ", e);
+            throw new AuthenticationException(ErrorCode.TOKEN_EPIRED);
+        } catch (Exception e) {
+            log.error("유효하지 않은 토큰 ", e);
+            throw new AuthenticationException(ErrorCode.NOT_VALID_TOKEN);
+        }
+    }
 
 }
