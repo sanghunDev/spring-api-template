@@ -6,6 +6,7 @@ import com.app.global.error.exception.AuthenticationException;
 import com.app.global.jwt.constant.GrantType;
 import com.app.global.jwt.constant.ToKenType;
 import com.app.global.jwt.dto.JwtTokenDto;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -97,7 +98,7 @@ public class TokenManager {
                     .parseClaimsJwt(tokenSecret);
         } catch (ExpiredJwtException e) {
             log.error("token 만료 ", e);
-            throw new AuthenticationException(ErrorCode.TOKEN_EPIRED);
+            throw new AuthenticationException(ErrorCode.TOKEN_EXPIRED);
         } catch (Exception e) {
             log.error("유효하지 않은 토큰 ", e);
             throw new AuthenticationException(ErrorCode.NOT_VALID_TOKEN);
