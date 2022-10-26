@@ -105,4 +105,22 @@ public class TokenManager {
         }
     }
 
+    /**
+     * payload 에 있는 Claims 정보 가져오는 메서드
+     * @param tokenSecret
+     * @return
+     */
+    public Claims getTokenClaims(String tokenSecret) {
+        Claims claims;
+        try {
+            claims = Jwts.parser().setSigningKey(tokenSecret.getBytes(StandardCharsets.UTF_8))
+                    .parseClaimsJwt(tokenSecret).getBody();
+        } catch (Exception e) {
+            log.info("유효하지 않은 토큰 ", e);
+            throw new AuthenticationException(ErrorCode.NOT_VALID_TOKEN);
+        }
+
+        return claims;
+    }
+
 }
