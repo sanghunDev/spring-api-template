@@ -74,7 +74,7 @@ public class TokenManager {
                 .claim("memberId", memberId)      // 회원 아이디
                 .claim("role", role)               // 유저 role
                 .signWith(SignatureAlgorithm.HS512, tokenSecret.getBytes(StandardCharsets.UTF_8))   // 토큰을 생성할때 사용할 알고리즘 지정 (HS512)
-                .setHeaderParam("type", "JWT")  // 토큰 타입 JWT
+                .setHeaderParam("typ", "JWT")  // 토큰 타입 JWT
                 .compact();
     }
 
@@ -88,14 +88,18 @@ public class TokenManager {
                 .setExpiration(expirationTime)          // 토큰 만료 시간
                 .claim("memberId", memberId)      // 회원 아이디
                 .signWith(SignatureAlgorithm.HS512, tokenSecret.getBytes(StandardCharsets.UTF_8))   // 토큰을 생성할때 사용할 알고리즘 지정 (HS512)
-                .setHeaderParam("type", "JWT")  // 토큰 타입 JWT
+                .setHeaderParam("typ", "JWT")  // 토큰 타입 JWT
                 .compact();
     }
 
-    public void validateToken(String tokenSecret) {
+    /**
+     * 토큰 유효성 체크
+     * @param token
+     */
+    public void validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(tokenSecret.getBytes(StandardCharsets.UTF_8))
-                    .parseClaimsJwt(tokenSecret);
+                    .parseClaimsJws(token);
         } catch (ExpiredJwtException e) {
             log.error("token 만료 ", e);
             throw new AuthenticationException(ErrorCode.TOKEN_EXPIRED);
@@ -107,14 +111,14 @@ public class TokenManager {
 
     /**
      * payload 에 있는 Claims 정보 가져오는 메서드
-     * @param tokenSecret
+     * @param token
      * @return
      */
-    public Claims getTokenClaims(String tokenSecret) {
+    public Claims getTokenClaims(String token) {
         Claims claims;
         try {
             claims = Jwts.parser().setSigningKey(tokenSecret.getBytes(StandardCharsets.UTF_8))
-                    .parseClaimsJwt(tokenSecret).getBody();
+                    .parseClaimsJws(token).getBody();
         } catch (Exception e) {
             log.info("유효하지 않은 토큰 ", e);
             throw new AuthenticationException(ErrorCode.NOT_VALID_TOKEN);
