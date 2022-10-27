@@ -1,5 +1,6 @@
 package com.app.global.config.web;
 
+import com.app.global.intercepter.AdminAuthorizationInterceptor;
 import com.app.global.intercepter.AuthenticationInterceptor;
 import com.app.global.resolver.memberInfo.MemberInfoArgumentResolver;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final AuthenticationInterceptor authenticationInterceptor;
     private final MemberInfoArgumentResolver memberInfoArgumentResolver;
+    private final AdminAuthorizationInterceptor adminAuthorizationInterceptor;
 
     //cors 허용
     @Override
@@ -37,7 +39,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authenticationInterceptor)
+        //토큰 검증
+       registry.addInterceptor(authenticationInterceptor)
                 .order(1)                   //인터셉터 실행순서 (인증이 가장 먼저 동작)
                 .addPathPatterns("/api/**") //어떤 요청에 적용시킬건가
                 .excludePathPatterns(
@@ -45,6 +48,11 @@ public class WebConfig implements WebMvcConfigurer {
                         "/api/access-token/issue",
                         "/api/logout",
                         "/api/health");      //인터셉터 적용 예외 요청
+
+        //관리자 검증
+        registry.addInterceptor(adminAuthorizationInterceptor)
+                .order(2)
+                .addPathPatterns("/api/admin/**");
     }
 
     @Override
