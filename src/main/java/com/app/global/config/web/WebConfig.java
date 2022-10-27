@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    private AuthenticationInterceptor authenticationInterceptor;
+    private final AuthenticationInterceptor authenticationInterceptor;
 
     //cors 허용
     @Override
