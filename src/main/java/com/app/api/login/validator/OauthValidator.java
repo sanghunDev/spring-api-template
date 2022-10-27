@@ -11,21 +11,6 @@ import org.springframework.util.StringUtils;
 @Service
 public class OauthValidator {
 
-    public void validateAuthorization(String authorizationHeader) {
-
-        // authorizationHeader 필수 값 체크
-        if (!StringUtils.hasText(authorizationHeader)) {
-            throw new AuthenticationException(ErrorCode.NOT_EXISTS_AUTHORIZATION);
-        }
-        //authorizationHeader을 공백 단위로 입력 한 경우 2개의 배열로 나눠질것
-        //배열의 길이가 2개인 경우 authorizationHeader 앞에 Bearer 값 체크
-        String[] authorizations = authorizationHeader.split(" ");
-        if (authorizations.length < 2 || (!GrantType.BEARER.getType().equals(authorizations[0]))) {
-            throw new AuthenticationException(ErrorCode.NOT_VALID_BEARER_GRANT_TYPE);
-        }
-
-    }
-
     public void validateMemberType(String memberType) {
         if (!MemberType.isMemberType(memberType)) {
             throw new BusinessException(ErrorCode.INVALID_MEMBER_TYPE);
