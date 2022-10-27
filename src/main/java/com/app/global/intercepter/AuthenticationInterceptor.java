@@ -34,7 +34,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         //토큰 타입
         Claims tokenClaims = tokenManager.getTokenClaims(token);
         String tokenType = tokenClaims.getSubject();
-        if (ToKenType.isAccessToken(tokenType)) {
+        if (!ToKenType.isAccessToken(tokenType)) {
             throw new AuthenticationException(ErrorCode.NOT_ACCESS_TOKEN_TYPE);
         }
 
