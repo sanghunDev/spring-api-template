@@ -19,7 +19,8 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("com.app.api"))   // API 패키지 경로 todo 패키지 경로 수정
                 .paths(PathSelectors.ant("/api/**"))     //any: 모든 api 경로에 대해 문서화, ant: path 조건에 따라서 API 문서화
                 .build()
-                .apiInfo(apiInfo());
+                .apiInfo(apiInfo())
+                .useDefaultResponseMessages(false);
     }
 
     private ApiInfo apiInfo() {
